@@ -6,15 +6,12 @@ from .models import Questoes
 def home(request):
     return render(request, "nossoapp/home.html")
 
-
 def questoes(request):
     questoes = Questoes.objects.all()
-    return render(request, "nossoapp/questoes.html", {"questoes": questoes})
-
+    return render(request, "nossoapp/questoes/questoes.html", {"questoes": questoes})
 
 def login(request):
-    return render(request, "nossoapp/login.html")
-
+    return render(request, "nossoapp/autenticacao/login.html")
 
 def register(request):
-    return render(request, "nossoapp/register.html")
+    return render(request, "nossoapp/autenticacao/register.html")

@@ -1,12 +1,12 @@
-{% extends "nossoapp/base.html" %} {% block content %}
+{% extends "../components/base.html" %} {% block content %}
 <h1>Lista de Questões</h1>
 <ul>
     {% for questao in questoes %}
-        <li>
+    <li>
         <h3>{{ questao.titulo }}</h3>
         <p>{{ questao.enunciado }}</p>
         <p>Respondida: {% if questao.respondida %}Sim{% else %}Não{% endif %}</p>
-        </li>
+    </li>
     {% endfor %}
 </ul>
 {% endblock %}
