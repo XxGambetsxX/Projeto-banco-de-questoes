@@ -12,33 +12,34 @@
   </title>
   <!-- bootstrap -->
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css">
-  <!-- css das cores -->
+  <!-- bootstrap icons -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.13.1/font/bootstrap-icons.min.css">
+  <!-- css extras -->
   <link rel="stylesheet" href="{% static 'nossoapp/css/cores.css' %}" />
   <link rel="stylesheet" href="{% static 'nossoapp/css/spacing.css' %}" />
-  <link rel="stylesheet" href="{% static 'nossoapp/css/responsive.css' %}" />
 </head>
 
 <body class="cor-fundo-site">
 
-    <!-- header -->
-    <div class="cor-fundo-header border-bottom border-dark fixed-top">
-      {% include 'nossoapp/components/header.html' %}
-    </div>
-  
-    <div class="header-separator"></div>
+  <!-- header -->
+  <div class="cor-fundo-header border-bottom border-dark fixed-top">
+    {% include 'nossoapp/components/header.html' %}
+  </div>
 
-    <!-- conteudo do site vai ficar dentro desse container -->
-    <div class="container p-0">
-      {% block content %}
-      {% endblock %}
-    </div>
-  
-    <div class="footer-separator"></div>
+  <div class="header-separator"></div>
 
-    <!-- footer -->
-    <div class= "cor-fundo-footer border-top border-black d-flex justify-content-center fixed-bottom">
+  <!-- conteudo do site vai ficar dentro desse container -->
+  <div class="container px-0 pt-4">
+    {% block content %}
+    {% endblock %}
+  </div>
+
+  <div class="footer-separator"></div>
+
+  <!-- footer -->
+  <div class="cor-fundo-footer border-top border-black d-flex justify-content-center fixed-bottom">
     {% include 'nossoapp/components/footer.html' %}
-    </div>
+  </div>
 
   <!-- extensões javascript -->
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"></script>
