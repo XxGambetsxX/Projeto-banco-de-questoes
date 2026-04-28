@@ -1,0 +1,51 @@
+/* aqui tem algumas variaveis */
+/* a ideia é ser fácil trocar a cor do site, apenas trocando a cor aqui no arquivo */
+:root {
+
+    /* fundos */
+    --cor-fundo-header: white;
+    --cor-fundo-site: white;
+    --cor-fundo-footer: white;
+    --cor-fundo-botao: rgb(0, 0, 0);
+
+    /* textos */
+    --cor-texto-normal: #000000;
+
+    /* links */
+    --cor-link-ativo: blue;
+    --cor-link-desativado: rgb(153, 153, 250);
+    --cor-link-hover: rgb(119, 119, 253);
+}
+
+.cor-fundo-header {
+    background-color: var(--cor-fundo-header);
+}
+
+.cor-fundo-site {
+    background-color: var(--cor-fundo-site);
+}
+
+.cor-fundo-footer {
+    background-color: var(--cor-fundo-footer);
+}
+
+.cor-texto-normal {
+    color: var(--cor-texto-normal);
+}
+
+.navbar-nav {
+    --bs-nav-link-color: var(--cor-link-ativo);
+    --bs-nav-link-disabled-color: var(--cor-link-desativado);
+    --bs-nav-link-hover-color: var(--cor-link-hover);
+}
+
+.btn-form {
+    background-color: var(--cor-fundo-botao);
+}
+
+
+/* colocando/retirando efeitos */
+
+.campo-input {
+
+}

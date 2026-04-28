@@ -1,3 +1,4 @@
+{% load static %}
 <!DOCTYPE html>
 <html lang="pt-br">
 
@@ -9,23 +10,38 @@
     Django App
     {% endblock %}
   </title>
-  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" />
+  <!-- bootstrap -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css">
+  <!-- css das cores -->
+  <link rel="stylesheet" href="{% static 'nossoapp/css/cores.css' %}" />
+  <link rel="stylesheet" href="{% static 'nossoapp/css/spacing.css' %}" />
+  <link rel="stylesheet" href="{% static 'nossoapp/css/responsive.css' %}" />
 </head>
 
-<body>
+<body class="cor-fundo-site">
 
-  <!-- header -->
-  {% include 'nossoapp/components/header.html' %}
+    <!-- header -->
+    <div class="cor-fundo-header border-bottom border-dark fixed-top">
+      {% include 'nossoapp/components/header.html' %}
+    </div>
+  
+    <div class="header-separator"></div>
 
-  <!-- conteudo do site vai ficar dentro desse container -->
-  <div class="container">
-    {% block content %}
-    {% endblock %}
-  </div>
+    <!-- conteudo do site vai ficar dentro desse container -->
+    <div class="container p-0">
+      {% block content %}
+      {% endblock %}
+    </div>
+  
+    <div class="footer-separator"></div>
+
+    <!-- footer -->
+    <div class= "cor-fundo-footer border-top border-black d-flex justify-content-center fixed-bottom">
+    {% include 'nossoapp/components/footer.html' %}
+    </div>
 
   <!-- extensões javascript -->
-  <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
-  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.bundle.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 
 </html>

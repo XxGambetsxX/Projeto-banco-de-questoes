@@ -1,0 +1,11 @@
+
+/* tela pequena */
+@media screen and (max-width: 768px) {
+  .header-tela-pequena {
+    display: block;
+  }
+
+  .header-tela-grande {
+    display: none;
+  }
+}
