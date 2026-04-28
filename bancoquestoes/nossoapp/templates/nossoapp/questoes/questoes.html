@@ -14,89 +14,54 @@
         <div class="col-md-3">
             <div class="border rounded p-3 h-100">
 
-                <h2>Filtros</h2>
+                <form method="GET">
 
-                <p><strong>Matérias</strong></p>
-                <div class="form-check">
-                    <input class="form-check-input" type="checkbox" id="matematica">
-                    <label class="form-check-label" for="matematica">Matemática</label>
-                </div>
+                    <h2>Filtros</h2>
 
-                <div class="form-check">
-                    <input class="form-check-input" type="checkbox" id="linguagens">
-                    <label class="form-check-label" for="linguagens">Linguagens</label>
-                </div>
+                    <p><strong>Matérias</strong></p>
 
-                <div class="form-check">
-                    <input class="form-check-input" type="checkbox" id="cienciasHumanas">
-                    <label class="form-check-label" for="cienciasHumanas">Ciências Humanas</label>
-                </div>
+                    <div class="form-check">
+                        <input class="form-check-input" type="checkbox" name="materia" value="MAT" id="matematica">
+                        <label class="form-check-label" for="matematica">Matemática</label>
+                    </div>
 
-                 <div class="form-check">
-                    <input class="form-check-input" type="checkbox" id="cienciasDaNatureza">
-                    <label class="form-check-label" for="cienciasDaNatureza">Ciências da Natureza</label>
-                </div>
+                    <div class="form-check">
+                        <input class="form-check-input" type="checkbox" name="materia" value="LIN" id="linguagens">
+                        <label class="form-check-label" for="linguagens">Linguagens</label>
+                    </div>
 
-                <p class="mt-3"><strong>Ano</strong></p>
-                <div class="form-check">
-                    <input class="form-check-input" type="checkbox" id="2025">
-                    <label class="form-check-label" for="2025">2025</label>
-                </div>
+                    <div class="form-check">
+                        <input class="form-check-input" type="checkbox" name="materia" value="HUM" id="cienciasHumanas">
+                        <label class="form-check-label" for="cienciasHumanas">Ciências Humanas</label>
+                    </div>
 
-                <div class="form-check">
-                    <input class="form-check-input" type="checkbox" id="2024">
-                    <label class="form-check-label" for="2024">2024</label>
-                </div>
+                    <div class="form-check">
+                        <input class="form-check-input" type="checkbox" name="materia" value="NAT" id="cienciasDaNatureza">
+                        <label class="form-check-label" for="cienciasDaNatureza">Ciências da Natureza</label>
+                    </div>
 
-                <div class="form-check">
-                    <input class="form-check-input" type="checkbox" id="2023">
-                    <label class="form-check-label" for="2023">2023</label>
-                </div>
+                    <p class="mt-3"><strong>Dificuldade</strong></p>
 
-                <div class="form-check">
-                    <input class="form-check-input" type="checkbox" id="2022">
-                    <label class="form-check-label" for="2022">2022</label>
-                </div>
+                    <div class="form-check">
+                        <input class="form-check-input" type="checkbox" name="dificuldade" value="F" id="facil">
+                        <label class="form-check-label" for="facil">Fácil</label>
+                    </div>
 
-                <div class="form-check">
-                    <input class="form-check-input" type="checkbox" id="2021">
-                    <label class="form-check-label" for="2021">2021</label>
-                </div>
+                    <div class="form-check">
+                        <input class="form-check-input" type="checkbox" name="dificuldade" value="M" id="medio">
+                        <label class="form-check-label" for="medio">Médio</label>
+                    </div>
 
-                <div class="form-check">
-                    <input class="form-check-input" type="checkbox" id="2020">
-                    <label class="form-check-label" for="2020">2020</label>
-                </div>
+                    <div class="form-check">
+                        <input class="form-check-input" type="checkbox" name="dificuldade" value="D" id="dificil">
+                        <label class="form-check-label" for="dificil">Difícil</label>
+                    </div>
 
-                <p class="mt-3"><strong>Dificuldade</strong></p>
-                <div class="form-check">
-                    <input class="form-check-input" type="checkbox" id="facil">
-                    <label class="form-check-label" for="facil">Fácil</label>
-                </div>
+                    <button type="submit" class="btn btn-primary mt-4 w-100">
+                        Aplicar
+                    </button>
 
-                <div class="form-check">
-                    <input class="form-check-input" type="checkbox" id="medio">
-                    <label class="form-check-label" for="medio">Médio</label>
-                </div>
-
-                <div class="form-check">
-                    <input class="form-check-input" type="checkbox" id="dificil">
-                    <label class="form-check-label" for="dificil">Difícil</label>
-                </div>
-
-
-                <p class="mt-3"><strong>Resolvida</strong></p>
-                <div class="form-check mt-3">
-                    <input class="form-check-input" type="checkbox" id="naoResolvida">
-                    <label class="form-check-label" for="naoResolvida">Não</label>
-                </div>
-
-                <div class="form-check mt-3">
-                    <input class="form-check-input" type="checkbox" id="resolvida">
-                    <label class="form-check-label" for="resolvida">Sim</label>
-                </div>
-
-                <button class="btn btn-primary mt-4 w-100">Aplicar</button>
+                </form>
 
             </div>
         </div>
@@ -111,11 +76,9 @@
                         <p>{{ questao.enunciado }}</p>
 
                         <div class="mt-4">
-                            <p>a. {{ questao.opcao_a }}</p>
-                            <p>b. {{ questao.opcao_b }}</p>
-                            <p>c. {{ questao.opcao_c }}</p>
-                            <p>d. {{ questao.opcao_d }}</p>
-                            <p>e. {{ questao.opcao_e }}</p>
+                            {% for alternativa in questao.alternativas.all %}
+                                <p>{{ alternativa.letra|lower }}. {{ alternativa.texto }}</p>
+                            {% endfor %}
                         </div>
                     {% endwith %}
                 {% else %}
@@ -123,8 +86,8 @@
                 {% endif %}
 
                 <div class="mt-auto d-flex justify-content-between pt-4">
-                    <button class="btn btn-danger">Anterior</button>
-                    <button class="btn btn-success">Próxima</button>
+                    <button class="btn btn-danger" disabled>Anterior</button>
+                    <button class="btn btn-success" disabled>Próxima</button>
                 </div>
 
             </div>
