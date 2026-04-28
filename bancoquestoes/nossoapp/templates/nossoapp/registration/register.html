@@ -1,49 +1,52 @@
 {% extends "../components/base.html" %} {% block title %} Home {% endblock %}
 {% block content %}
 
-<div class="d-flex justify-content-center align-items-center vh-100 bg-light">
-    
-    <div class="card p-4" style="width: 500px;">
-        
+<div class="d-flex justify-content-center align-items-center">
+
+    <div class="card p-4 shadow-sm" style="width: 500px;">
+
         <h2 class="text-center mb-3">Cadastro</h2>
 
         <form method="POST">
             {% csrf_token %} <!-- precisa disso para o django aceitar o post do formulário -->
 
             {% if form.errors %}
-                <div class="alert alert-danger">
-                    <ul class="mb-0">
-                        {% for field in form %}
-                            {% for error in field.errors %}
-                                <li>{{ error }}</li>
-                            {% endfor %}
-                        {% endfor %}
+            <div class="alert alert-danger">
+                <ul class="mb-0">
+                    {% for field in form %}
+                    {% for error in field.errors %}
+                    <li>{{ error }}</li>
+                    {% endfor %}
+                    {% endfor %}
 
-                        {% for error in form.non_field_errors %}
-                            <li>{{ error }}</li>
-                        {% endfor %}
-                    </ul>
-                </div>
+                    {% for error in form.non_field_errors %}
+                    <li>{{ error }}</li>
+                    {% endfor %}
+                </ul>
+            </div>
             {% endif %}
 
             <div class="mb-3 campo-input">
                 <label for="username" class="form-label">Nome de Usuário</label>
-                <input type="text" class="form-control" id= username name="username" placeholder="User123" required>
+                <input type="text" class="form-control" id=username name="username" placeholder="User123" required>
             </div>
 
             <div class="mb-3 campo-input">
                 <label for="email" class="form-label">E-mail</label>
-                <input type="email" class="form-control" id="email" name="email" placeholder="seuemail@email.com" required>
+                <input type="email" class="form-control" id="email" name="email" placeholder="seuemail@email.com"
+                    required>
             </div>
 
             <div class="mb-2 campo-input">
                 <label for="password1" class="form-label">Senha</label>
-                <input type="password" class="form-control" id="password1" name="password1" placeholder="••••••••" required>
+                <input type="password" class="form-control" id="password1" name="password1" placeholder="••••••••"
+                    required>
             </div>
 
-            <div class="mb-3 campo-input>
+            <div class="mb-3 campo-input">
                 <label for="password2" class="form-label">Confirmar Senha</label>
-                <input type="password" class="form-control" id="password2" name="password2" placeholder="••••••••" required>
+                <input type="password" class="form-control" id="password2" name="password2" placeholder="••••••••"
+                    required>
             </div>
 
             <button type="submit" class="btn btn-primary w-100 btn-form botao-cadastro">Cadastrar</button>
