@@ -1,7 +1,11 @@
+/* colocar espaçamentos especificos aqui */
+
+/* separa a página do footer */
 .footer-separator {
     margin-top: 41px;
 }
 
+/* separa a página do header */
 .header-separator {
     margin-bottom: 57px;
 }

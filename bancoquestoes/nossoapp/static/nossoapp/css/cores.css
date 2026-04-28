@@ -12,9 +12,9 @@
     --cor-texto-normal: #000000;
 
     /* links */
-    --cor-link-ativo: blue;
-    --cor-link-desativado: rgb(153, 153, 250);
-    --cor-link-hover: rgb(119, 119, 253);
+    --cor-link: rgb(95, 95, 196);
+    --cor-link-atual: blue;
+    --cor-link-hover: blue;
 }
 
 .cor-fundo-header {
@@ -33,10 +33,20 @@
     color: var(--cor-texto-normal);
 }
 
+/* troca diretamente algumas variaveis do bootstrap */
 .navbar-nav {
-    --bs-nav-link-color: var(--cor-link-ativo);
-    --bs-nav-link-disabled-color: var(--cor-link-desativado);
-    --bs-nav-link-hover-color: var(--cor-link-hover);
+    --bs-nav-link-color: var(--cor-link);    
+    --bs-nav-link-hover-color: var(--cor-link-hover);    
+}
+
+/* se colocar no link diretamente */
+.cor-link-atual {
+    color: var(--cor-link-atual) !important;
+}
+
+/* se colocar num pai de um link */
+.cor-link-atual a {
+    color: var(--cor-link-atual) !important;
 }
 
 .btn-form {
