@@ -15,6 +15,8 @@
     --cor-link: rgb(95, 95, 196);
     --cor-link-atual: blue;
     --cor-link-hover: blue;
+    /* cor do link de sair quando passa o mouse em cima */
+    --cor-link-sair: red;
 }
 
 .cor-fundo-header {
@@ -47,6 +49,10 @@
 /* se colocar num pai de um link */
 .cor-link-atual a {
     color: var(--cor-link-atual) !important;
+}
+
+.cor-link-sair:hover{
+  color: var(--cor-link-sair) !important;
 }
 
 .btn-form {

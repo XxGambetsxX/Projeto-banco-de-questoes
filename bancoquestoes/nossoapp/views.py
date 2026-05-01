@@ -1,13 +1,20 @@
 from django.shortcuts import render
 from django.contrib.auth.decorators import login_required
-from django.contrib.auth import authenticate, login as auth_login
+from django.contrib.auth import authenticate, login as auth_login, logout
 from django.shortcuts import redirect
+from django.conf import settings
 from .models import Questoes
 from .forms import CadastroForm
 
+
 # Create your views here.
 def home(request):
-    return render(request, "nossoapp/home.html")
+    data = {}
+
+    data["user"] = request.user
+
+    return render(request, "nossoapp/home.html", data)
+
 
 def register(request):
     if request.method == "POST":
@@ -18,6 +25,7 @@ def register(request):
     else:
         form = CadastroForm()
     return render(request, "nossoapp/registration/register.html", {"form": form})
+
 
 def login(request):
     if request.method == "POST":
@@ -30,13 +38,22 @@ def login(request):
             auth_login(request, user)
             return redirect("questoes")
         else:
-            return render(request, "nossoapp/registration/login.html", {
-                "erro": "Usuário ou senha inválidos."
-            })
+            return render(
+                request,
+                "nossoapp/registration/login.html",
+                {"erro": "Usuário ou senha inválidos."},
+            )
 
     return render(request, "nossoapp/registration/login.html")
 
-@login_required
+
+# desloga o usuário
+def exit(request):
+    logout(request)
+    return redirect("login")
+
+
+@login_required(login_url="login")
 def questoes(request):
     questoes = Questoes.objects.prefetch_related("alternativas").all()
 
@@ -50,6 +67,4 @@ def questoes(request):
     if dificuldades:
         questoes = questoes.filter(dificuldade__in=dificuldades)
 
-    return render(request, "nossoapp/questoes/questoes.html", {
-        "questoes": questoes
-    })
+    return render(request, "nossoapp/questoes/questoes.html", {"questoes": questoes})
