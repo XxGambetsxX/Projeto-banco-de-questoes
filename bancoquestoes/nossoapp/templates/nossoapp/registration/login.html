@@ -1,4 +1,4 @@
-{% extends "../components/base.html" %} {% block title %} Entre {% endblock %}
+{% extends "../components/base-auth.html" %} {% block title %} Banco questões - Login {% endblock %}
 {% block content %}
 
 <!-- <form method="POST">
@@ -28,45 +28,51 @@
   <button type="submit" class="btn btn-primary">Entrar</button>
 </form> -->
 
+{% comment %} centraliza no meio da tela {% endcomment %}
+<div class="d-flex justify-content-center align-items-center vh-100">
 
-<div class="d-flex justify-content-center align-items-center">
-
-  <div class="card p-4 shadow-sm" style="width: 500px;">
-
-    <h2 class="text-center mb-3">Login</h2>
-
-    <form method="POST">
-      {% csrf_token %} <!-- precisa disso para o django aceitar o post do formulário -->
-
-
-      {% if form.errors %}
-      <div class="alert alert-danger">
-        Usuário ou senha inválidos.
+  {% comment %} faz o titulo ficar em cima do card  {% endcomment %}
+  <div class="d-flex flex-column gap-2 justify-content-center align-items-center">
+    <h1>Banco de questões</h1>
+  
+    <div class="card p-4 shadow-sm" style="width: 500px;">
+  
+      <h2 class="text-center mb-3">Login</h2>
+  
+      <form method="POST">
+        {% csrf_token %} <!-- precisa disso para o django aceitar o post do formulário -->
+  
+  
+        {% if form.errors %}
+        <div class="alert alert-danger">
+          Usuário ou senha inválidos.
+        </div>
+  
+        {% endif %}
+  
+        <div class="mb-3 campo-input">
+          <label for="username" class="form-label">Nome de Usuário</label>
+          <input type="text" class="form-control" name="username" placeholder="User123" required>
+        </div>
+  
+        <div class="mb-2 campo-input">
+          <label for="password" class="form-label">Senha</label>
+          <input type="password" class="form-control" id="password" name="password" placeholder="••••••••" required>
+        </div>
+  
+        <div class="mb-3 text-end">
+          <a href="#" class="small">Esqueci minha senha</a>
+        </div>
+        <button type="submit" class="btn btn-primary w-100 btn-form botao-login">Entrar</button>
+      </form>
+      <div class="text-center mt-3">
+        <span class="small">Não tem uma conta?</span>
+        <a href="{% url 'register'%}" class="small">Cadastre-se</a>
       </div>
-
-      {% endif %}
-
-      <div class="mb-3 campo-input">
-        <label for="username" class="form-label">Nome de Usuário</label>
-        <input type="text" class="form-control" name="username" placeholder="User123" required>
-      </div>
-
-      <div class="mb-2 campo-input">
-        <label for="password" class="form-label">Senha</label>
-        <input type="password" class="form-control" id="password" name="password" placeholder="••••••••" required>
-      </div>
-
-      <div class="mb-3 text-end">
-        <a href="#" class="small">Esqueci minha senha</a>
-      </div>
-      <button type="submit" class="btn btn-primary w-100 btn-form botao-login">Entrar</button>
-    </form>
-    <div class="text-center mt-3">
-      <span class="small">Não tem uma conta?</span>
-      <a href="{% url 'register'%}" class="small">Cadastre-se</a>
+  
     </div>
-
   </div>
+
 
 </div>
 
