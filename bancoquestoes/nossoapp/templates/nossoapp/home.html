@@ -1,10 +1,51 @@
-{% extends "./components/base.html" %} {% block title %} Home {% endblock %}
+{% extends "./components/base.html" %}
+{% block title %} Home {% endblock %}
 
 {% block content %}
-<div class="d-flex justify-content-center">
+
+{% if user.is_authenticated %}
+
+<div class="container mt-5 text-center">
+    <h1 class="mb-1">Olá, {{ user.username }}! 👋</h1>
+    <p class="text-muted">Bem-vindo de volta ao Banco de Questões.</p>
+
+    <div class="row g-3 mt-2 justify-content-center">
+
+        <div class="col-md-3">
+            <div class="border rounded p-4 text-center">
+                <h6 class="text-muted">Questões resolvidas em {{ ano_atual }}</h6>
+                <p class="display-5 fw-bold">{{ total_resolvidas }}</p>
+            </div>
+        </div>
+
+        <div class="col-md-3">
+            <div class="border rounded p-4 text-center">
+                <h6 class="text-muted">Acertos em {{ ano_atual }}</h6>
+                <p class="display-5 fw-bold text-success">{{ total_acertos }}</p>
+            </div>
+        </div>
+
+        <div class="col-md-3">
+            <div class="border rounded p-4 text-center">
+                <h6 class="text-muted">Erros em {{ ano_actual }}</h6>
+                <p class="display-5 fw-bold text-danger">{{ total_erros }}</p>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+{% else %}
+
+<div class="d-flex justify-content-center mt-5">
     <div class="text-center">
         <h1>Seja bem vindo ao banco de questões!</h1>
         <p>Entre ou crie sua conta para começar</p>
+        <a href="{% url 'login' %}" class="btn btn-primary me-2">Entrar</a>
+        <a href="{% url 'cadastro' %}" class="btn btn-outline-primary">Criar conta</a>
     </div>
 </div>
+
+{% endif %}
+
 {% endblock %}

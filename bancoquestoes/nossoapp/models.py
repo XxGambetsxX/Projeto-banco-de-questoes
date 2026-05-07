@@ -4,10 +4,16 @@ from django.core.exceptions import ValidationError
 from django.core.validators import MinValueValidator, MaxValueValidator
 from datetime import datetime
 
-# Create your models here.
-
-class PerfilUsuario(models.Model):
+class Estudantes(models.Model):
     usuario = models.OneToOneField(User, on_delete=models.CASCADE)
+    foto = models.ImageField(upload_to='fotos/', null=True, blank=True)
+
+    def __str__(self):
+        return self.usuario.username    
+
+    class Meta:
+        verbose_name = "Estudante"
+        verbose_name_plural = "Estudantes"
 
 class Questoes(models.Model):
     titulo = models.CharField(max_length=200)
@@ -20,21 +26,26 @@ class Questoes(models.Model):
         ]
     )
 
-    dificuldade_choices = [('F', 'Fácil'),
-                           ('M', 'Médio'),
-                           ('D', 'Difícil')]
+    nivel_choices = [('F', 'Fácil'),
+                     ('M', 'Médio'),
+                     ('D', 'Difícil')]
     
-    dificuldade = models.CharField(max_length=1, choices=dificuldade_choices)
+    nivel = models.CharField(max_length=1, choices=nivel_choices)
 
     materia_choices = [('MAT', 'Matemática'),
                        ('LIN', 'Linguagens'),
                        ('HUM', 'Ciências Humanas'),
                        ('NAT', 'Ciências da Natureza')]
     
-    materia = models.CharField(max_length=3,choices=materia_choices)
+    materia = models.CharField(max_length=3, choices=materia_choices)
 
     def __str__(self):
         return self.titulo
+    
+#para deixar os nomes sem "ss" no admin
+    class Meta:
+        verbose_name = "Questão"
+        verbose_name_plural = "Questões"
 
 class Alternativa(models.Model):
     class Letra(models.TextChoices):
@@ -48,6 +59,9 @@ class Alternativa(models.Model):
     letra = models.CharField(max_length=1, choices=Letra.choices, blank=True, null=True)
     texto = models.TextField()
     correta = models.BooleanField(default=False)
+
+    def __str__(self):
+        return f"{self.letra}"
 
     def save(self, *args, **kwargs):
         if not self.letra:
@@ -64,6 +78,8 @@ class Alternativa(models.Model):
         super().save(*args, **kwargs)
 
     class Meta:
+        verbose_name = "Alternativa"
+        verbose_name_plural = "Alternativas"
         constraints = [models.UniqueConstraint(fields=['questao', 'letra'], name='letra_unica_por_questao')]
 
     def clean(self):
@@ -74,30 +90,36 @@ class Alternativa(models.Model):
                 'texto': "O texto da alternativa não pode ficar vazio."
             })
 
-        # Verifica se a questão foi salva antes de fazer validações que dependem do banco
         if not self.questao.pk:
             return
 
-        # Impede mais de uma alternativa correta por questão
         if self.correta: 
             alternativas_certas = Alternativa.objects.filter(questao=self.questao, correta=True).exclude(pk=self.pk)
             if alternativas_certas.exists():
                 raise ValidationError("Já existe uma alternativa correta para esta questão.")
                     
-        # Impede mais de 5 alternativas por questão
         total = Alternativa.objects.filter(questao=self.questao).exclude(pk=self.pk).count()
         if total >= 5:
-            raise ValidationError(
-                "Uma questão só pode ter 5 alternativas."
-            )
+            raise ValidationError("Uma questão só pode ter 5 alternativas.")
 
-class RespostaUsuario(models.Model):
+class QuestaoFeita(models.Model):
     usuario = models.ForeignKey(User, on_delete=models.CASCADE)
     questao = models.ForeignKey(Questoes, on_delete=models.CASCADE)
-    alternativa_escohida = models.ForeignKey(Alternativa, on_delete=models.SET_NULL, null=True, blank=True)
+    alternativa_escolhida = models.ForeignKey(Alternativa, on_delete=models.SET_NULL, null=True, blank=True)
+    acertou = models.BooleanField(null=True, blank=True)
+    data = models.DateTimeField(auto_now_add=True)
 
-    # Garantir que um usuário só possa responder uma vez para cada questão
+    def save(self, *args, **kwargs):
+        if self.alternativa_escolhida:
+            self.acertou = self.alternativa_escolhida.correta
+        super().save(*args, **kwargs)
+
+    def __str__(self):
+        return f"{self.usuario.username} - {self.questao.titulo}"        
+
     class Meta:
+        verbose_name = "Questão Feita"
+        verbose_name_plural = "Questões Feitas"
         constraints = [
             models.UniqueConstraint(
                 fields=['usuario', 'questao'],

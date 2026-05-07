@@ -13,88 +13,104 @@
         <!-- Painel de filtros -->
         <div class="col-md-3">
             <div class="border rounded p-3 h-100">
-
                 <form method="GET">
-
                     <h2>Filtros</h2>
 
                     <p><strong>Matérias</strong></p>
-
                     <div class="form-check">
-                        <input class="form-check-input" type="checkbox" name="materia" value="MAT" id="matematica">
+                        <input class="form-check-input" type="checkbox" name="materia" value="MAT" id="matematica" {% if 'MAT' in materias_ativas %}checked{% endif %}>
                         <label class="form-check-label" for="matematica">Matemática</label>
                     </div>
-
                     <div class="form-check">
-                        <input class="form-check-input" type="checkbox" name="materia" value="LIN" id="linguagens">
+                        <input class="form-check-input" type="checkbox" name="materia" value="LIN" id="linguagens" {% if 'LIN' in materias_ativas %}checked{% endif %}>
                         <label class="form-check-label" for="linguagens">Linguagens</label>
                     </div>
-
                     <div class="form-check">
-                        <input class="form-check-input" type="checkbox" name="materia" value="HUM" id="cienciasHumanas">
+                        <input class="form-check-input" type="checkbox" name="materia" value="HUM" id="cienciasHumanas" {% if 'HUM' in materias_ativas %}checked{% endif %}>
                         <label class="form-check-label" for="cienciasHumanas">Ciências Humanas</label>
                     </div>
-
                     <div class="form-check">
-                        <input class="form-check-input" type="checkbox" name="materia" value="NAT" id="cienciasDaNatureza">
+                        <input class="form-check-input" type="checkbox" name="materia" value="NAT" id="cienciasDaNatureza" {% if 'NAT' in materias_ativas %}checked{% endif %}>
                         <label class="form-check-label" for="cienciasDaNatureza">Ciências da Natureza</label>
                     </div>
 
-                    <p class="mt-3"><strong>Dificuldade</strong></p>
-
+                    <p class="mt-3"><strong>Nível</strong></p>
                     <div class="form-check">
-                        <input class="form-check-input" type="checkbox" name="dificuldade" value="F" id="facil">
+                        <input class="form-check-input" type="checkbox" name="nivel" value="F" id="facil" {% if 'F' in niveis_ativos %}checked{% endif %}>
                         <label class="form-check-label" for="facil">Fácil</label>
                     </div>
-
                     <div class="form-check">
-                        <input class="form-check-input" type="checkbox" name="dificuldade" value="M" id="medio">
+                        <input class="form-check-input" type="checkbox" name="nivel" value="M" id="medio" {% if 'M' in niveis_ativos %}checked{% endif %}>
                         <label class="form-check-label" for="medio">Médio</label>
                     </div>
-
                     <div class="form-check">
-                        <input class="form-check-input" type="checkbox" name="dificuldade" value="D" id="dificil">
+                        <input class="form-check-input" type="checkbox" name="nivel" value="D" id="dificil" {% if 'D' in niveis_ativos %}checked{% endif %}>
                         <label class="form-check-label" for="dificil">Difícil</label>
                     </div>
 
-                    <button type="submit" class="btn btn-primary mt-4 w-100">
-                        Aplicar
-                    </button>
-
+                    <button type="submit" class="btn btn-primary mt-4 w-100">Aplicar</button>
                 </form>
-
             </div>
         </div>
 
-        <!-- Painel principal -->
-        <div class="col-md-9">
-            <div class="border rounded p-4 h-100 d-flex flex-column">
+<!-- Painel principal -->
+<div class="col-md-9">
+    <div class="border rounded p-4 h-100 d-flex flex-column">
 
-                {% if questoes %}
-                {% with questao=questoes.0 %}
-                <h4>{{ questao.titulo }}</h4>
-                <p>{{ questao.enunciado }}</p>
-
-                        <div class="mt-4">
-                            {% for alternativa in questao.alternativas.all %}
-                                <p>{{ alternativa.letra|lower }}. {{ alternativa.texto }}</p>
-                            {% endfor %}
-                        </div>
-                    {% endwith %}
-                {% else %}
-                <p>Nenhuma questão encontrada.</p>
-                {% endif %}
-
-                <div class="mt-auto d-flex justify-content-between pt-4">
-                    <button class="btn btn-danger" disabled>Anterior</button>
-                    <button class="btn btn-success" disabled>Próxima</button>
-                </div>
-
-            </div>
+        {% if finalizado %}
+        <div class="text-center my-auto">
+            <h2>📚 Resultado</h2>
+            <p class="fs-4 mt-3">Você acertou <strong>{{ acertos }}</strong> de <strong>{{ total }}</strong> questões.</p>
+            <a href="{% url 'questoes' %}" class="btn btn-primary mt-4">Tentar novamente</a>
         </div>
+
+        {% elif questao %}
+        <p class="text-muted small">Questão {{ indice|add:1 }} de {{ total }}</p>
+        <h4>{{ questao.titulo }}</h4>
+        <p>{{ questao.enunciado }}</p>
+
+        <form method="POST" action="{% url 'responder_questao' questao.id %}">
+            {% csrf_token %}
+            <input type="hidden" name="indice" value="{{ indice }}">
+            {% for m in materias_ativas %}
+            <input type="hidden" name="materia" value="{{ m }}">
+            {% endfor %}
+            {% for n in niveis_ativos %}
+            <input type="hidden" name="nivel" value="{{ n }}">
+            {% endfor %}
+
+            <div class="mt-3 d-flex flex-column gap-2">
+                {% for alternativa in questao.alternativas.all %}
+                <label class="border rounded p-2 d-flex align-items-center gap-2" style="cursor: pointer;">
+                    <input class="form-check-input m-0" type="radio" name="alternativa" value="{{ alternativa.id }}">
+                    <strong>{{ alternativa.letra|lower }}.</strong> {{ alternativa.texto }}
+                </label>
+                {% endfor %}
+            </div>
+
+            <div class="mt-auto d-flex justify-content-between pt-4">
+                <a href="?indice={{ indice|add:'-1' }}{% for m in materias_ativas %}&materia={{ m }}{% endfor %}{% for n in niveis_ativos %}&nivel={{ n }}{% endfor %}"
+                    class="btn btn-danger {% if indice == 0 %}disabled{% endif %}">Anterior</a>
+                <button class="btn btn-success" type="submit">Responder e Próxima</button>
+            </div>
+        </form>
+
+        {% else %}
+        <p>Nenhuma questão encontrada.</p>
+        {% endif %}
+
+    </div>
+</div>
 
     </div>
 
 </div>
+
+<style>
+    label:has(input[type="radio"]:checked) {
+        background-color: #0d6efd22;
+        border-color: #0d6efd !important;
+    }
+</style>
 
 {% endblock %}

@@ -1,46 +1,96 @@
-# Projeto integrador - banco de questões
+# Banco de Questões
 
-ADICIONAR DESCRIÇÃO
+Aplicação web desenvolvida em Django para estudo com questões de múltipla escolha.
 
-## Comandos para rodar a aplicação
+---
 
-obs: antes de seguir os comandos é necessário baixar o python. Talvez os comandos mudem depedendo do sistema operacional.
+## Requisitos
 
-1. Primeiro criar um ambiente virtual (o comando pode ser diferente em ourtos sistemas)
+- Python 3.10+
+- Pip
 
-```bash
-python -m venv .venv
-```
+---
 
-2. Entrar no ambiente virtual, comando para entrar no git bash:
-
-```bash
-source .venv/Scripts/activate
-```
-
-3. Baixar o Django
+## Instalação
 
 ```bash
-python -m pip install Django
-```
-
-4. Mover para a pasta /bancoquestoes
-
-```bash
+# 1. Clone o repositório e entre na pasta
 cd bancoquestoes
-```
 
-5. Rodar o servidor local, por padrão vai rodar na porta 8000 (http://localhost:8000)
+# 2. Crie e ative o ambiente virtual
+python -m venv venv
+venv\Scripts\Activate.ps1  # Windows PowerShell
 
-```bash
+# 3. Instale as dependências
+pip install -r requirements.txt
+
+# 4. Aplique as migrations
+python manage.py migrate
+
+# 5. Crie um superusuário para acessar o admin
+python manage.py createsuperuser
+
+# 6. Rode o servidor
 python manage.py runserver
 ```
 
-## Rotas
+Acesse em: http://127.0.0.1:8000
 
-- /admin (http://localhost:8000/admin) -> tela de admin
-- /nossoapp (http://localhost:8000/nossoapp) -> projeto integrador 1
+---
 
-## Contribuidores
+## Telas
 
-ADICIONAR NOME E GITHUB DE TODO MUNDO DO GRUPO AQUI
+| Tela | URL | Descrição |
+|---|---|---|
+| Home | `/` | Página inicial. Sem login: apresentação do site. Com login: saudação, total de questões resolvidas, acertos, erros e gráfico anual. |
+| Login | `/login` | Autenticação do usuário. |
+| Cadastro | `/cadastro/` | Criação de nova conta. |
+| Questões | `/questoes/` | Lista de questões com filtros por matéria e nível. Navegação uma por vez com Anterior/Próxima. Ao final exibe o resultado. Requer login. |
+| Minha Conta | `/minha-conta/` | Permite alterar e-mail, senha e foto de perfil. Requer login. |
+| Admin | `/admin/` | Painel administrativo do Django. Requer superusuário. |
+
+---
+
+## Admin
+
+Acesse `/admin/` com o superusuário criado. No painel você pode:
+
+**Questões**
+- Adicionar, editar e excluir questões
+- Cada questão deve ter exatamente 5 alternativas, sendo exatamente 1 correta
+- Campos: título, enunciado, ano, nível (Fácil/Médio/Difícil) e matéria
+
+**Estudantes**
+- Criados automaticamente quando um novo usuário se cadastra
+- Contém a foto de perfil vinculada ao usuário
+
+**Questões Feitas**
+- Registro de todas as respostas dos usuários
+- Exibe: usuário, questão (com link direto), alternativa escolhida, se acertou e data
+
+---
+
+## Tabelas do banco
+
+| Tabela | Descrição |
+|---|---|
+| `auth_user` | Usuários do Django (nativo) |
+| `nossoapp_estudantes` | Perfil estendido do usuário com foto |
+| `nossoapp_questoes` | Questões com enunciado, ano, nível e matéria |
+| `nossoapp_alternativa` | Alternativas (A-E) vinculadas a cada questão |
+| `nossoapp_questaofeita` | Respostas dos usuários com data e resultado |
+
+---
+
+## Matérias disponíveis
+
+- Matemática
+- Linguagens
+- Ciências Humanas
+- Ciências da Natureza
+
+## Níveis disponíveis
+
+- Fácil
+- Médio
+- Difícil

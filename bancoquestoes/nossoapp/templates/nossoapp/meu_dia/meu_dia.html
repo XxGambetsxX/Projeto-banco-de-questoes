@@ -1,0 +1,73 @@
+{% extends 'nossoapp/components/base.html' %}
+{% block title %}Meu Dia{% endblock %}
+
+{% block content %}
+<h4 class="fw-bold mb-1">Meu Dia</h4>
+<p class="text-muted mb-4" style="font-size:.85rem;">{{ hoje|date:"d \d\e F \d\e Y" }}</p>
+
+{% if total == 0 %}
+  <p class="text-muted">Você ainda não respondeu nenhuma questão hoje.</p>
+{% else %}
+
+  <!-- Resumo -->
+  <div class="d-flex gap-3 mb-4 flex-wrap">
+    <div class="border rounded p-3 text-center" style="min-width:90px;">
+      <div class="fw-bold fs-4">{{ total }}</div>
+      <div class="text-muted small">Respondidas</div>
+    </div>
+    <div class="border rounded p-3 text-center" style="min-width:90px;">
+      <div class="fw-bold fs-4 text-success">{{ acertos }}</div>
+      <div class="text-muted small">Acertos</div>
+    </div>
+    <div class="border rounded p-3 text-center" style="min-width:90px;">
+      <div class="fw-bold fs-4 text-danger">{{ erros }}</div>
+      <div class="text-muted small">Erros</div>
+    </div>
+  </div>
+
+  <!-- 4 quadrantes -->
+  <div class="row g-3">
+    {% for mat in dados %}
+    <div class="col-6">
+      <div class="border rounded p-2">
+        <div class="fw-bold mb-1" style="font-size:.8rem;">{{ mat.nome }}</div>
+        <canvas id="chart_{{ forloop.counter }}" height="120"></canvas>
+      </div>
+    </div>
+    {% endfor %}
+  </div>
+
+{% endif %}
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+<script>
+  const dadosMateria = [
+    {% for mat in dados %}
+    {
+      niveis: [{% for niv in mat.niveis %}{ nome: "{{ niv.nome }}", acertos: {{ niv.acertos }}, erros: {{ niv.erros }} },{% endfor %}]
+    },
+    {% endfor %}
+  ];
+
+  dadosMateria.forEach((mat, i) => {
+    new Chart(document.getElementById('chart_' + (i + 1)), {
+      type: 'bar',
+      data: {
+        labels: mat.niveis.map(n => n.nome),
+        datasets: [
+          { label: 'Acertos', data: mat.niveis.map(n => n.acertos), backgroundColor: '#22c55e', borderRadius: 4 },
+          { label: 'Erros',   data: mat.niveis.map(n => n.erros),   backgroundColor: '#ef4444', borderRadius: 4 },
+        ]
+      },
+      options: {
+        responsive: true,
+        plugins: { legend: { labels: { boxWidth: 10, font: { size: 10 } } } },
+        scales: {
+          x: { grid: { display: false }, ticks: { font: { size: 10 } } },
+          y: { beginAtZero: true, ticks: { stepSize: 1, font: { size: 10 } }, grid: { color: '#f1f5f9' } }
+        }
+      }
+    });
+  });
+</script>
+{% endblock %}

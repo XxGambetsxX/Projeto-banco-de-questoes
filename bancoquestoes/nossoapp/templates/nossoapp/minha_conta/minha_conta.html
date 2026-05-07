@@ -1,0 +1,97 @@
+{% extends "../components/base.html" %}
+{% block title %} Minha Conta {% endblock %}
+
+{% block content %}
+<div class="container mt-4">
+    <h1 class="mb-4">Minha Conta</h1>
+
+    {% if sucesso %}
+    <div class="alert alert-success">{{ sucesso }}</div>
+    {% endif %}
+
+    {% if erro %}
+    <div class="alert alert-danger">{{ erro }}</div>
+    {% endif %}
+
+    <div class="row g-3">
+
+        <!-- Foto de perfil -->
+        <div class="col-md-3 text-center">
+            <div class="border rounded p-4">
+                {% if estudante.foto %}
+                <img src="{{ estudante.foto.url }}" class="rounded-circle mb-3" width="120" height="120" style="object-fit: cover;">
+                {% else %}
+                <div class="rounded-circle bg-secondary d-flex align-items-center justify-content-center mx-auto mb-3"
+                    style="width:120px; height:120px;">
+                    <i class="bi bi-person text-white" style="font-size: 3rem;"></i>
+                </div>
+                {% endif %}
+                <p class="fw-bold mb-1">{{ user.username }}</p>
+                <p class="text-muted small">{{ user.email }}</p>
+
+                <form method="POST" enctype="multipart/form-data" class="mt-3">
+                    {% csrf_token %}
+                    <input type="hidden" name="acao" value="foto">
+                    <input type="file" name="foto" accept="image/*" class="form-control form-control-sm mb-2">
+                    <button type="submit" class="btn btn-primary btn-sm w-100">Atualizar foto</button>
+                </form>
+            </div>
+        </div>
+
+        <!-- Informações e senha -->
+        <div class="col-md-9 d-flex flex-column gap-3">
+
+            <!-- Alterar nome de usuário -->
+            <div class="border rounded p-4">
+                <h5>Alterar Nome de Usuário</h5>
+                <form method="POST">
+                    {% csrf_token %}
+                    <input type="hidden" name="acao" value="username">
+                    <div class="mb-3">
+                        <label class="form-label">Novo nome de usuário</label>
+                        <input type="text" name="username" class="form-control" value="{{ user.username }}" required>
+                    </div>
+                    <button type="submit" class="btn btn-primary">Salvar</button>
+                </form>
+            </div>
+
+            <!-- Alterar email -->
+            <div class="border rounded p-4">
+                <h5>Alterar E-mail</h5>
+                <form method="POST">
+                    {% csrf_token %}
+                    <input type="hidden" name="acao" value="email">
+                    <div class="mb-3">
+                        <label class="form-label">Novo e-mail</label>
+                        <input type="email" name="email" class="form-control" value="{{ user.email }}" required>
+                    </div>
+                    <button type="submit" class="btn btn-primary">Salvar</button>
+                </form>
+            </div>
+
+            <!-- Alterar senha -->
+            <div class="border rounded p-4">
+                <h5>Alterar Senha</h5>
+                <form method="POST">
+                    {% csrf_token %}
+                    <input type="hidden" name="acao" value="senha">
+                    <div class="mb-3">
+                        <label class="form-label">Senha atual</label>
+                        <input type="password" name="senha_atual" class="form-control" required>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Nova senha</label>
+                        <input type="password" name="nova_senha" class="form-control" required>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Confirmar nova senha</label>
+                        <input type="password" name="confirmar_senha" class="form-control" required>
+                    </div>
+                    <button type="submit" class="btn btn-primary">Salvar</button>
+                </form>
+            </div>
+
+        </div>
+    </div>
+</div>
+{% endblock %}

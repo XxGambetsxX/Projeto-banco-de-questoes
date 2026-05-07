@@ -24,6 +24,10 @@
         </li>
       {% endif %}
 
+        <li class="nav-item {% if request.resolver_match.url_name == 'meu_dia' %}active cor-link-atual{% endif %}">
+          <a class="nav-link" href="{% url 'meu_dia' %}"><i class="bi bi-calendar-check"></i> Meu Dia</a>
+        </li>
+
     </ul>
 
     <ul class="navbar-nav ms-auto">
@@ -32,7 +36,7 @@
         <!-- nome do usuário, clicando vai para a tela do usuário -->
         <li
           class="nav-item {% if request.resolver_match.url_name == 'login' %}active cor-link-atual{% endif %}">
-          <a class="nav-link" href="{% url 'login' %}"><i class="bi bi-person"></i> {{ user.username }}</a>
+          <a class="nav-link" href="{% url 'minha_conta' %}"> <i class="bi bi-person"></i> {{ user.username }}</a>
         </li>
         <!-- botão sair -->
         <li
@@ -42,7 +46,7 @@
 
       {% else %}
         <li
-          class="nav-item {% if request.resolver_match.url_name == 'login' or request.resolver_match.url_name == 'register' %}active cor-link-atual{% endif %}">
+          class="nav-item {% if request.resolver_match.url_name == 'login' or request.resolver_match.url_name == 'cadastro' %}active cor-link-atual{% endif %}">
           <a class="nav-link" href="{% url 'login' %}"><i class="bi bi-person"></i> Entre</a>
         </li>
         

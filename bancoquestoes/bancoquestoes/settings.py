@@ -14,8 +14,8 @@ from pathlib import Path
 
 # Redirects de login e logout
 LOGIN_REDIRECT_URL = "/questoes"
-LOGOUT_REDIRECT_URL = "/registration"
-LOGIN_URL = "/registration"
+LOGOUT_REDIRECT_URL = "/login"
+LOGIN_URL = "/login"
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -120,3 +120,7 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/6.0/howto/static-files/
 
 STATIC_URL = "static/"
+
+# Adicionando novas urls para media e pasta raiz
+MEDIA_URL = 'media/'
+MEDIA_ROOT = BASE_DIR / 'media'

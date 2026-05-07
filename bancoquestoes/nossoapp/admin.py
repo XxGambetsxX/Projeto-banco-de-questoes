@@ -1,8 +1,9 @@
 from django import forms
 from django.contrib import admin
 from django.core.exceptions import ValidationError
-from .models import Questoes, Alternativa, PerfilUsuario, RespostaUsuario
-        # Register your models here.
+from .models import Questoes, Alternativa, Estudantes, QuestaoFeita
+from django.utils.html import format_html
+from django.urls import reverse
 
 class AlternativaForm(forms.ModelForm):
     class Meta:
@@ -35,13 +36,11 @@ class AlternativaInlineFormSet(forms.BaseInlineFormSet):
 
             texto = form.cleaned_data.get("texto")
 
-            # Se o form foi iniciado mas sem texto → erro
             if form.has_changed() and (not texto or not texto.strip()):
                 raise forms.ValidationError(
                     "Nenhuma alternativa pode ficar com texto vazio."
                 )
 
-            # Conta apenas formulários válidos/preenchidos
             if texto and texto.strip():
                 total += 1
 
@@ -75,4 +74,15 @@ class AlternativaInline(admin.TabularInline):
 class QuestoesAdmin(admin.ModelAdmin):
     inlines = [AlternativaInline]
 
-admin.site.register(PerfilUsuario)
+@admin.register(QuestaoFeita)
+class QuestaoFeitaAdmin(admin.ModelAdmin):
+    list_display = ('usuario', 'questao_link', 'alternativa_escolhida', 'acertou', 'data')
+    list_filter = ('usuario', 'acertou')
+
+    def questao_link(self, obj):
+        url = reverse('admin:nossoapp_questoes_change', args=[obj.questao.id])
+        return format_html('<a href="{}">{}</a>', url, obj.questao.titulo)
+    
+    questao_link.short_description = 'Questão'    
+
+admin.site.register(Estudantes)
