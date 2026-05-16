@@ -137,10 +137,10 @@ def responder_questao(request, questao_id):
         questao = get_object_or_404(Questoes, id=questao_id)
         alternativa = get_object_or_404(Alternativa, id=alternativa_id, questao=questao)
 
-        QuestaoFeita.objects.update_or_create(
+        QuestaoFeita.objects.create(
             usuario=request.user,
             questao=questao,
-            defaults={'alternativa_escolhida': alternativa}
+            alternativa_escolhida=alternativa
         )
 
         lista_questoes = Questoes.objects.all()

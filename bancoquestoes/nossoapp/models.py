@@ -120,9 +120,3 @@ class QuestaoFeita(models.Model):
     class Meta:
         verbose_name = "Questão Feita"
         verbose_name_plural = "Questões Feitas"
-        constraints = [
-            models.UniqueConstraint(
-                fields=['usuario', 'questao'],
-                name='resposta_unica_por_usuario'
-            )
-        ]
